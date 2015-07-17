@@ -21,12 +21,8 @@
 #
 
 def install_plugin(plugin)
-  chef_server_ingredient plugin do
-    notifies :run, "execute[#{plugin}-ctl reconfigure]", :immediately
-    notifies :reconfigure, "chef_server_ingredient[chef-server-core]", :immediately
-  end
-
-  execute "#{plugin}-ctl reconfigure" do
-    action :nothing
+  chef_ingredient plugin do
+    notifies :reconfigure, "chef_ingredient[#{plugin}]", :immediately
+    notifies :reconfigure, "chef_ingredient[chef-server]", :immediately
   end
 end
