@@ -424,6 +424,12 @@ namespace :maintenance do
     FileUtils.rm_rf('.chef/local-mode-cache')
     FileUtils.rm_rf('cookbooks/')
   end
+
+  desc 'Clean build nodes'
+  task :clean_build_nodes do
+    msg 'Clearing workspace on buildnodes'
+    chef_zero 'clean_builders_workspace'
+  end
 end
 
 namespace :destroy do

@@ -83,6 +83,19 @@ module DeliveryCluster
           )
         end
 
+        # Add workspace clean size limit if it exists
+        # Builders can quickly fill up, this allows user to specify
+        # that a workspace should be deleted and rebuilt to free up space
+        # when threshold is reached (in mb)
+        if node['delivery-cluster']['builders']['workspace_limit']
+          builders_attributes = Chef::Mixin::DeepMerge.hash_only_merge(
+            builders_attributes,
+            'delivery_build' => {
+              'workspace_limit' => node['delivery-cluster']['builders']['workspace_limit']
+            }
+          )
+        end
+
         # Add trusted_certs attributes
         builders_attributes = Chef::Mixin::DeepMerge.hash_only_merge(
           builders_attributes,
